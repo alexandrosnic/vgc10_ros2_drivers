@@ -3,7 +3,7 @@
    <!-- robot name parameter -->
    <xacro:arg name="name" default="ur"/>
    <!-- import main macro -->
-   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+   <xacro:include filename="$(find vgc10_description)/urdf/ur_macro.xacro"/>
   
   
   <xacro:macro name="onrobot_vgc10_base_link" params="prefix">
@@ -16,7 +16,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://ur_description/meshes/visual/base_link.stl" />
+          <mesh filename="package://vgc10_description/meshes/visual/base_link.stl" />
         </geometry>
         <material name="">
           <color rgba="0.8 0.8 0.8 1" />
@@ -25,7 +25,7 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://ur_description/meshes/collision/base_link.stl" />
+          <mesh filename="package://vgc10_description/meshes/collision/base_link.stl" />
         </geometry>
       </collision>
     </link>
@@ -53,7 +53,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://ur_description/meshes/visual/suction_cup.stl" />
+          <mesh filename="package://vgc10_description/meshes/visual/suction_cup.stl" />
         </geometry>
         <material name="">
           <color rgba="0.9 0.9 0.9 1" />
@@ -62,7 +62,7 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://ur_description/meshes/collision/suction_cup.stl" />
+          <mesh filename="package://vgc10_description/meshes/collision/suction_cup.stl" />
         </geometry>
       </collision>
     </link>
@@ -99,7 +99,7 @@
    <xacro:arg name="fake_sensor_commands" default="false" />
 
    <!-- initial position -->
-   <xacro:arg name="initial_positions_file" default="$(find ur_description)/config/initial_positions.yaml"/>
+   <xacro:arg name="initial_positions_file" default="$(find vgc10_description)/config/initial_positions.yaml"/>
    <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
 
    <!-- arm -->

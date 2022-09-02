@@ -23,7 +23,7 @@
           <param name="input_recipe_filename">${input_recipe_filename}</param>
           <param name="headless_mode">0</param>
           <param name="reverse_port">50001</param>
-          <param name="script_sender_port">50002</param>
+          <param name="script_sender_port">29999</param>
           <param name="tf_prefix">"${tf_prefix}"</param>
           <param name="non_blocking_read">0</param>
           <param name="servoj_gain">2000</param>
