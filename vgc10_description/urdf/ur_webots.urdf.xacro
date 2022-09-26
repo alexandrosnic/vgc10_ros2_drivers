@@ -3,9 +3,6 @@
    <!-- robot name parameter -->
    <xacro:arg name="name" default="ur"/>
    <!-- import main macro -->  
-  <webots>
-      <plugin type="webots_ros2_control::Ros2Control" />
-  </webots>
 
   <xacro:macro name="onrobot_vgc10_base_link" params="prefix">
     <link name="${prefix}onrobot_vgc10_base_link">
@@ -39,10 +36,6 @@
     </joint>
   </xacro:macro>
 
-  <xacro:macro name="finger_links" params="prefix">
-    <xacro:suction prefix="${prefix}"/>
-  </xacro:macro>
-
 
   <xacro:macro name="suction" params="prefix">
     <link name="${prefix}suction">
@@ -67,6 +60,10 @@
         </geometry>
       </collision>
     </link>
+  </xacro:macro>
+
+  <xacro:macro name="finger_links" params="prefix">
+    <xacro:suction prefix="${prefix}"/>
   </xacro:macro>
 
   <xacro:macro name="suction_joint" params="prefix">
@@ -129,242 +126,6 @@
     <xacro:arg name="input_recipe_filename" default="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"/>
     <xacro:arg name="robot_ip" default="10.0.1.186"/>
 
-
-    <!-- ros2 control include -->
-    <!-- ********************************************************************************************** -->
-    <!-- ros2 control macro -->
-    <xacro:macro name="ur_ros2_control" params="name prefix
-      use_fake_hardware:=false fake_sensor_commands:=false
-      script_filename output_recipe_filename
-      input_recipe_filename tf_prefix
-      hash_kinematics robot_ip">
-
-      <ros2_control name="${name}" type="system">
-        <hardware>
-            <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
-        </hardware>
-        <joint name="${prefix}shoulder_pan_joint">
-          <command_interface name="position">
-            <param name="min">${-2*pi}</param>
-            <param name="max">${2*pi}</param>
-          </command_interface>
-          <command_interface name="velocity">
-            <param name="min">-3.15</param>
-            <param name="max">3.15</param>
-          </command_interface>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-          <state_interface name="effort"/>
-        </joint>
-        <joint name="${prefix}shoulder_lift_joint">
-          <command_interface name="position">
-            <param name="min">${-2*pi}</param>
-            <param name="max">${2*pi}</param>
-          </command_interface>
-          <command_interface name="velocity">
-            <param name="min">-3.15</param>
-            <param name="max">3.15</param>
-          </command_interface>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-          <state_interface name="effort"/>
-        </joint>
-        <joint name="${prefix}elbow_joint">
-          <command_interface name="position">
-            <param name="min">${-pi}</param>
-            <param name="max">${pi}</param>
-          </command_interface>
-          <command_interface name="velocity">
-            <param name="min">-3.15</param>
-            <param name="max">3.15</param>
-          </command_interface>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-          <state_interface name="effort"/>
-        </joint>
-        <joint name="${prefix}wrist_1_joint">
-          <command_interface name="position">
-            <param name="min">${-2*pi}</param>
-            <param name="max">${2*pi}</param>
-          </command_interface>
-          <command_interface name="velocity">
-            <param name="min">-3.2</param>
-            <param name="max">3.2</param>
-          </command_interface>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-          <state_interface name="effort"/>
-        </joint>
-        <joint name="${prefix}wrist_2_joint">
-          <command_interface name="position">
-            <param name="min">${-2*pi}</param>
-            <param name="max">${2*pi}</param>
-          </command_interface>
-          <command_interface name="velocity">
-            <param name="min">-3.2</param>
-            <param name="max">3.2</param>
-          </command_interface>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-          <state_interface name="effort"/>
-        </joint>
-        <joint name="${prefix}wrist_3_joint">
-          <command_interface name="position">
-            <param name="min">${-2*pi}</param>
-            <param name="max">${2*pi}</param>
-          </command_interface>
-          <command_interface name="velocity">
-            <param name="min">-3.2</param>
-            <param name="max">3.2</param>
-          </command_interface>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-          <state_interface name="effort"/>
-        </joint>
-        <sensor name="tcp_fts_sensor">
-          <state_interface name="force.x"/>
-          <state_interface name="force.y"/>
-          <state_interface name="force.z"/>
-          <state_interface name="torque.x"/>
-          <state_interface name="torque.y"/>
-          <state_interface name="torque.z"/>
-        </sensor>
-
-        <!-- NOTE The following are joints used only for testing with fake hardware and will change in the future -->
-        <joint name="speed_scaling">
-          <state_interface name="speed_scaling_factor"/>
-          <param name="initial_speed_scaling_factor">1</param>
-          <command_interface name="target_speed_fraction_cmd"/>
-          <command_interface name="target_speed_fraction_async_success"/>
-        </joint>
-
-        <joint name="gpio">
-          <command_interface name="standard_digital_output_cmd_0"/>
-          <command_interface name="standard_digital_output_cmd_1"/>
-          <command_interface name="standard_digital_output_cmd_2"/>
-          <command_interface name="standard_digital_output_cmd_3"/>
-          <command_interface name="standard_digital_output_cmd_4"/>
-          <command_interface name="standard_digital_output_cmd_5"/>
-          <command_interface name="standard_digital_output_cmd_6"/>
-          <command_interface name="standard_digital_output_cmd_7"/>
-          <command_interface name="standard_digital_output_cmd_8"/>
-          <command_interface name="standard_digital_output_cmd_9"/>
-          <command_interface name="standard_digital_output_cmd_10"/>
-          <command_interface name="standard_digital_output_cmd_11"/>
-          <command_interface name="standard_digital_output_cmd_12"/>
-          <command_interface name="standard_digital_output_cmd_13"/>
-          <command_interface name="standard_digital_output_cmd_14"/>
-          <command_interface name="standard_digital_output_cmd_15"/>
-          <command_interface name="standard_digital_output_cmd_16"/>
-          <command_interface name="standard_digital_output_cmd_17"/>
-
-          <command_interface name="standard_analog_output_cmd_0"/>
-          <command_interface name="standard_analog_output_cmd_1"/>
-
-          <command_interface name="io_async_success"/>
-
-          <state_interface name="digital_output_0"/>
-          <state_interface name="digital_output_1"/>
-          <state_interface name="digital_output_2"/>
-          <state_interface name="digital_output_3"/>
-          <state_interface name="digital_output_4"/>
-          <state_interface name="digital_output_5"/>
-          <state_interface name="digital_output_6"/>
-          <state_interface name="digital_output_7"/>
-          <state_interface name="digital_output_8"/>
-          <state_interface name="digital_output_9"/>
-          <state_interface name="digital_output_10"/>
-          <state_interface name="digital_output_11"/>
-          <state_interface name="digital_output_12"/>
-          <state_interface name="digital_output_13"/>
-          <state_interface name="digital_output_14"/>
-          <state_interface name="digital_output_15"/>
-          <state_interface name="digital_output_16"/>
-          <state_interface name="digital_output_17"/>
-
-          <state_interface name="digital_input_0"/>
-          <state_interface name="digital_input_1"/>
-          <state_interface name="digital_input_2"/>
-          <state_interface name="digital_input_3"/>
-          <state_interface name="digital_input_4"/>
-          <state_interface name="digital_input_5"/>
-          <state_interface name="digital_input_6"/>
-          <state_interface name="digital_input_7"/>
-          <state_interface name="digital_input_8"/>
-          <state_interface name="digital_input_9"/>
-          <state_interface name="digital_input_10"/>
-          <state_interface name="digital_input_11"/>
-          <state_interface name="digital_input_12"/>
-          <state_interface name="digital_input_13"/>
-          <state_interface name="digital_input_14"/>
-          <state_interface name="digital_input_15"/>
-          <state_interface name="digital_input_16"/>
-          <state_interface name="digital_input_17"/>
-
-          <state_interface name="standard_analog_output_0"/>
-          <state_interface name="standard_analog_output_1"/>
-
-          <state_interface name="standard_analog_input_0"/>
-          <state_interface name="standard_analog_input_1"/>
-
-          <state_interface name="analog_io_type_0"/>
-          <state_interface name="analog_io_type_1"/>
-          <state_interface name="analog_io_type_2"/>
-          <state_interface name="analog_io_type_3"/>
-
-          <state_interface name="tool_mode"/>
-          <state_interface name="tool_output_voltage"/>
-          <state_interface name="tool_output_current"/>
-          <state_interface name="tool_temperature"/>
-
-          <state_interface name="tool_analog_input_0"/>
-          <state_interface name="tool_analog_input_1"/>
-
-          <state_interface name="tool_analog_input_type_0"/>
-          <state_interface name="tool_analog_input_type_1"/>
-
-          <state_interface name="robot_mode"/>
-          <state_interface name="robot_status_bit_0"/>
-          <state_interface name="robot_status_bit_1"/>
-          <state_interface name="robot_status_bit_2"/>
-          <state_interface name="robot_status_bit_3"/>
-
-          <state_interface name="safety_mode"/>
-          <state_interface name="safety_status_bit_0"/>
-          <state_interface name="safety_status_bit_1"/>
-          <state_interface name="safety_status_bit_2"/>
-          <state_interface name="safety_status_bit_3"/>
-          <state_interface name="safety_status_bit_4"/>
-          <state_interface name="safety_status_bit_5"/>
-          <state_interface name="safety_status_bit_6"/>
-          <state_interface name="safety_status_bit_7"/>
-          <state_interface name="safety_status_bit_8"/>
-          <state_interface name="safety_status_bit_9"/>
-          <state_interface name="safety_status_bit_10"/>
-          <state_interface name="program_running"/>
-        </joint>
-
-        <gpio name="system_interface">
-          <state_interface name="initialized"/>
-        </gpio>
-
-      </ros2_control>
-    </xacro:macro>
-    <!-- ********************************************************************************************** -->
-
-
-
-    <!-- ros2 control instance -->
-    <xacro:ur_ros2_control
-      name="URPositionHardwareInterface" prefix="${prefix}"
-      use_fake_hardware="$(arg use_fake_hardware)"
-      fake_sensor_commands="$(arg fake_sensor_commands)"
-      script_filename="$(arg script_filename)"
-      output_recipe_filename="$(arg output_recipe_filename)"
-      input_recipe_filename="$(arg input_recipe_filename)"
-      tf_prefix=""
-      hash_kinematics="${kinematics_hash}"
-      robot_ip="$(arg robot_ip)" />
 
     <!-- Add URDF transmission elements (for ros_control) -->
     <!--<xacro:ur_arm_transmission prefix="${prefix}" hw_interface="${transmission_hw_interface}" />-->
@@ -561,7 +322,7 @@
     <joint name="${prefix}shoulder_pan_joint" type="revolute">
       <parent link="${prefix}base_link_inertia" />
       <child link="${prefix}shoulder_link" />
-      <origin xyz="${shoulder_x} ${shoulder_y} ${shoulder_z}" rpy="${shoulder_roll} ${shoulder_pitch} ${shoulder_yaw}" />
+      <origin xyz="${shoulder_x} ${shoulder_y} ${shoulder_z}" rpy="0 0 0" />
       <axis xyz="0 0 1" />
       <limit lower="${shoulder_pan_lower_limit}" upper="${shoulder_pan_upper_limit}"
         effort="${shoulder_pan_effort_limit}" velocity="${shoulder_pan_velocity_limit}"/>
@@ -573,7 +334,7 @@
     <joint name="${prefix}shoulder_lift_joint" type="revolute">
       <parent link="${prefix}shoulder_link" />
       <child link="${prefix}upper_arm_link" />
-      <origin xyz="${upper_arm_x} ${upper_arm_y} ${upper_arm_z}" rpy="${upper_arm_roll} ${upper_arm_pitch} ${upper_arm_yaw}" />
+      <origin xyz="${upper_arm_x} ${upper_arm_y} ${upper_arm_z}" rpy="1.570796327 1.570796327 0" />
       <axis xyz="0 0 1" />
       <limit lower="${shoulder_lift_lower_limit}" upper="${shoulder_lift_upper_limit}"
         effort="${shoulder_lift_effort_limit}" velocity="${shoulder_lift_velocity_limit}"/>
@@ -585,7 +346,7 @@
     <joint name="${prefix}elbow_joint" type="revolute">
       <parent link="${prefix}upper_arm_link" />
       <child link="${prefix}forearm_link" />
-      <origin xyz="${forearm_x} ${forearm_y} ${forearm_z}" rpy="${forearm_roll} ${forearm_pitch} ${forearm_yaw}" />
+      <origin xyz="${forearm_x} ${forearm_y} ${forearm_z}" rpy="0 0 0" />
       <axis xyz="0 0 1" />
       <limit lower="${elbow_joint_lower_limit}" upper="${elbow_joint_upper_limit}"
         effort="${elbow_joint_effort_limit}" velocity="${elbow_joint_velocity_limit}"/>
@@ -597,7 +358,7 @@
     <joint name="${prefix}wrist_1_joint" type="revolute">
       <parent link="${prefix}forearm_link" />
       <child link="${prefix}wrist_1_link" />
-      <origin xyz="${wrist_1_x} ${wrist_1_y} ${wrist_1_z}" rpy="${wrist_1_roll} ${wrist_1_pitch} ${wrist_1_yaw}" />
+      <origin xyz="${wrist_1_x} ${wrist_1_y} ${wrist_1_z}" rpy="0 0 -1.570796327" />
       <axis xyz="0 0 1" />
       <limit lower="${wrist_1_lower_limit}" upper="${wrist_1_upper_limit}"
         effort="${wrist_1_effort_limit}" velocity="${wrist_1_velocity_limit}"/>
@@ -632,23 +393,47 @@
     </joint>
 
     <!-- ROS-Industrial 'base' frame - base_link to UR 'Base' Coordinates transform -->
-    <link name="${prefix}base">
+    <link name="world"/>
+
+    <link name="table_base">
       <visual>
-        <origin xyz="0 0 -0.025" rpy="0 0 ${pi}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.8 0.8 0.05"/>
+          <box size="0.8 0.8 0.02"/>
         </geometry>
         <material name="white">
           <color rgba="1 1 1 1"/>
         </material>
       </visual>
       <collision>
-        <origin xyz="0 0 -0.025" rpy="0 0 ${pi}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.8 0.8 0.05"/>
+          <box size="0.8 0.8 0.02"/>
         </geometry>
       </collision>
     </link>
+    <joint name="world-table_fixed_joint" type="fixed">
+      <!-- Note the rotation over Z of pi radians - as base_link is REP-103
+            aligned (i.e., has X+ forward, Y+ left and Z+ up), this is needed
+            to correctly align 'base' with the 'Base' coordinate system of
+            the UR controller.
+      -->
+      <origin xyz="0 0 0.705" rpy="0 0 ${-pi/2}"/>
+      <parent link="world"/>
+      <child link="table_base"/>
+    </joint>
+    <joint name="table_base-base_link_fixed_joint" type="fixed">
+      <!-- Note the rotation over Z of pi radians - as base_link is REP-103
+            aligned (i.e., has X+ forward, Y+ left and Z+ up), this is needed
+            to correctly align 'base' with the 'Base' coordinate system of
+            the UR controller.
+      -->
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="table_base"/>
+      <child link="base_link"/>
+    </joint>
+    
+    <link name="base"/>
     <joint name="${prefix}base_link-base_fixed_joint" type="fixed">
       <!-- Note the rotation over Z of pi radians - as base_link is REP-103
            aligned (i.e., has X+ forward, Y+ left and Z+ up), this is needed
@@ -658,6 +443,13 @@
       <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
       <parent link="${prefix}base_link"/>
       <child link="${prefix}base"/>
+    </joint>
+
+    <link name="planning_frame"/>
+    <joint name="base_link-planning_frame" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+      <parent link="base_link"/>
+      <child link="planning_frame"/>
     </joint>
 
     <!-- ROS-Industrial 'flange' frame - attachment point for EEF models -->
