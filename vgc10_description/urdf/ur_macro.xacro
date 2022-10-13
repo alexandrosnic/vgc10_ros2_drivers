@@ -389,6 +389,13 @@
       <child link="${prefix}base"/>
     </joint>
 
+    <link name="planning_frame"/>
+    <joint name="base_link-planning_frame" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+      <parent link="base_link"/>
+      <child link="planning_frame"/>
+    </joint>
+
     <!-- ROS-Industrial 'flange' frame - attachment point for EEF models -->
     <link name="${prefix}flange" />
     <joint name="${prefix}wrist_3-flange" type="fixed">
