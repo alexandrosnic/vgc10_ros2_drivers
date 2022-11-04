@@ -384,9 +384,38 @@
            to correctly align 'base' with the 'Base' coordinate system of
            the UR controller.
       -->
-      <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+      <origin xyz="0 0 -0.02" rpy="0 0 ${pi}"/>
       <parent link="${prefix}base_link"/>
       <child link="${prefix}base"/>
+    </joint>
+
+
+    <link name="${prefix}base_flange">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.15 0.15 0.02"/>
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.15 0.15 0.02"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}base-base_flange_fixed_joint" type="fixed">
+      <!-- Note the rotation over Z of pi radians - as base_link is REP-103
+           aligned (i.e., has X+ forward, Y+ left and Z+ up), this is needed
+           to correctly align 'base' with the 'Base' coordinate system of
+           the UR controller.
+      -->
+      <origin xyz="0 0 0.02" rpy="0 0 ${pi}"/>
+      <parent link="${prefix}base"/>
+      <child link="${prefix}base_flange"/>
     </joint>
 
     <link name="planning_frame"/>
